@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {},
+	"extensions": {
+		"recommendations": [
+			"sumneko.lua",
+			"svizzini.factorio-lua-api-autocomplete"
+		]
+	}
+}
