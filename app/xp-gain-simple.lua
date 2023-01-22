@@ -28,4 +28,23 @@ function XpGainSimple.on_player_mined_entity(event)
     end
 end
 
+function XpGainSimple.on_player_repaired_entity(event)
+    if math.random(1, 4) ~= 1 then
+        return
+    end
+
+    local entity = event.entity
+    if not entity or not entity.valid or not not entity.health  then
+        return
+    end
+
+    local player = PlayerUtil.get_player(event)
+
+    if not player or not player.valid or not player.character then
+        return
+    end
+
+    Experience.add(player, 0.05 * entity.health)
+end
+
 return XpGainSimple;

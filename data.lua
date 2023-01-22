@@ -16,7 +16,7 @@ styles["pe_controls_flow"] = {
 
 styles["pe_controls_textfield"] = {
     type = "textbox_style",
-    width = 36
+    width = 100
 }
 
 styles["pe_controls_label"] = {

@@ -1,12 +1,13 @@
 local PlayerUtil = require 'utils.player'
 local Experience = require 'app.experience'
+local Attributes = require 'app.attributes'
 
 local UI = {}
 
 local function build_frame(player, global_player)
     local screen_element = player.gui.screen
     local main_frame = screen_element.add{type="frame", name="pe_main_frame", caption={"ui.frame_character_title"}}
-    main_frame.style.size = {400, 680}
+    main_frame.style.size = {400, 500}
     main_frame.auto_center = true
 
     player.opened = main_frame
@@ -14,46 +15,48 @@ local function build_frame(player, global_player)
     return main_frame;
 end
 
-local function xp_row(player, global_player, content_frame)
-    local controls_flow = content_frame.add{type="flow", name="controls_flow_xp", direction="horizontal", style="pe_controls_flow"}
+local function row_simple(player, global_player, content_frame, text, name)
+    local controls_flow = content_frame.add{type="flow", name="controls_flow_" .. name, direction="horizontal", style="pe_controls_flow"}
 
-    local controls_label = controls_flow.add({type="label", caption={"app.experience"}, style="pe_controls_label"})
+    local controls_label = controls_flow.add({type="label", caption={"app." .. name}, name="controls_label_" .. name, style="pe_controls_label"})
     local controls_textfield = controls_flow.add(
         {
-            type="textfield", 
-            name="pe_controls_textfield_xp", 
-            text=Experience.xp_label(player), 
-            numeric=true, 
-            allow_decimal=false, 
-            allow_negative=false, 
+            type="textfield",
+            name="pe_controls_textfield_" .. name,
+            text=text,
+            numeric=true,
+            allow_decimal=false,
+            allow_negative=false,
             style="pe_controls_textfield",
             enabled=false
         })
 
-    global_player.elements.controls_label_xp = controls_label
-    global_player.elements.controls_textfield_xp = controls_textfield
+    global_player.elements["controls_label_" .. name] = controls_label
+    global_player.elements["controls_textfield_" .. name] = controls_textfield
+
+    return controls_flow
+end
+
+local function attributes_row(player, global_player, content_frame)
+    for k, v in pairs(global_player.attributes) do
+        local controls_flow = row_simple(player, global_player, content_frame, tostring(v), k)
+        local controls_button = controls_flow.add{type="button", name="pe_attribute_add_" .. k, caption="+"}
+        global_player.elements["pe_attribute_add_" .. k] = controls_button
+    end
+end
+
+local function xp_row(player, global_player, content_frame)
+    row_simple(player,global_player,content_frame,Experience.xp_label(player),"experience")
 end
 
 local function level_row(player, global_player, content_frame)
-    local controls_flow = content_frame.add{type="flow", name="controls_flow_level", direction="horizontal", style="pe_controls_flow"}
-    
     local level = global_player.level
+    row_simple(player,global_player,content_frame,tostring(level),"level")
+end
 
-    local controls_label = controls_flow.add({type="label", caption={"app.level"}, style="pe_controls_label"})
-    local controls_textfield = controls_flow.add(
-        {
-            type="textfield", 
-            name="pe_controls_textfield_level", 
-            text=tostring(level), 
-            numeric=true, 
-            allow_decimal=false, 
-            allow_negative=false, 
-            style="pe_controls_textfield",
-            enabled=false
-        })
-
-    global_player.elements.controls_label_level = controls_label
-    global_player.elements.controls_textfield_level = controls_textfield
+local function attribute_points_row(player, global_player, content_frame)
+    local ap = Attributes.points_left(player)
+    row_simple(player,global_player,content_frame,tostring(ap),"attribute_points")
 end
 
 function UI.build_interface(player)
@@ -64,6 +67,8 @@ function UI.build_interface(player)
     local content_frame = main_frame.add{type="frame", name="content_frame", direction="vertical", style="pe_content_frame"}
     xp_row(player,global_player,content_frame)
     level_row(player,global_player,content_frame)
+    attributes_row(player,global_player,content_frame)
+    attribute_points_row(player,global_player,content_frame)
 end
 
 function UI.toggle_interface(player)

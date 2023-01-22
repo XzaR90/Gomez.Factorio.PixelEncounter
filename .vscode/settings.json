@@ -6,6 +6,7 @@
         "script",
         "game",
         "global",
-        "player"
+        "player",
+        "remote"
     ]
 }

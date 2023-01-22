@@ -1,9 +1,30 @@
 local PlayerUtil = require 'utils.player'
+local Attributes = require 'app.attributes'
+local TableUtil = require 'utils.table';
 
 local Main = {}
 
+function Main.createPlayer()
+    return {
+        xp = 0,
+        level = 1,
+        attributes = Attributes.create(),
+    }
+end
+
+function Main.createInterface()
+    return {
+        controls_active = true,
+        elements = {},
+    }
+end
+
+function Main.createGlobals()
+    return TableUtil.merge(Main.createPlayer(),Main.createInterface(), TableUtil.CombineStrategy.second)
+end
+
 function Main.initialize_global(player)
-    global.players[player.index] = { controls_active = true, xp = 0, level = 1, elements = {} };
+    global.players[player.index] = Main.createGlobals()
 end
 
 function Main.on_init()

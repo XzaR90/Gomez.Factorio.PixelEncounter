@@ -1,4 +1,5 @@
 local Experience = require 'app.experience'
+local PlayerUtil = require 'utils.player'
 
 local XpGainResearch = {}
 
@@ -16,6 +17,25 @@ function XpGainResearch.on_research_finished(event)
         end
     end
 
+end
+
+function XpGainResearch.on_player_crafted_item(event)
+    local recipe = event.recipe
+    if not recipe.energy then
+        return
+    end
+
+    local player = PlayerUtil.get_player(event)
+    if not player or not player.valid then
+        return
+    end
+
+    if player.cheat_mode then
+        return
+    end
+
+    local xp = recipe.energy * 0.40 * game.forces["enemy"].evolution_factor + 1
+    Experience.add(player, xp)
 end
 
 return XpGainResearch
