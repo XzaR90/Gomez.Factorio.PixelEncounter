@@ -1,15 +1,18 @@
 
 local PlayerUtil = require 'utils.player'
-local Logger = require 'utils.logger';
+require 'utils.string'
 
 local Attributes = {}
 
+Attributes.on_player_attribute_add = script.generate_event_name() --uint
+
+Attributes.initialPoint = 5;
 function Attributes.create()
     return {
-        strength = 5,
-        dexterity = 5,
-        endurance = 5,
-        intelligence = 5,
+        strength = Attributes.initialPoint,
+        dexterity = Attributes.initialPoint,
+        endurance = Attributes.initialPoint,
+        intelligence = Attributes.initialPoint,
     }
 end
 
@@ -45,20 +48,21 @@ function Attributes.on_gui_click(event)
     end
 end
 
-function Attributes.add(player, global_player, attributeName, amount)
+function Attributes.add(player, global_player, attribute_name, amount)
     local ap_left = Attributes.points_left(player) - amount;
     if(ap_left < 0) then
         return
     end
 
-    global_player.attributes[attributeName] = global_player.attributes[attributeName] + amount
+    global_player.attributes[attribute_name] = global_player.attributes[attribute_name] + amount
     
-    if(global_player.elements["controls_textfield_" .. attributeName]) then
-        global_player.elements["controls_textfield_" .. attributeName].text = tostring(global_player.attributes[attributeName])
+    if(global_player.elements["controls_textfield_" .. attribute_name]) then
+        global_player.elements["controls_textfield_" .. attribute_name].text = tostring(global_player.attributes[attribute_name])
     end
 
     Attributes.refresh_ap(player, global_player, ap_left)
     Attributes.disable_add_when_ap_zero(player, global_player, ap_left)
+    script.raise_event(Attributes.on_player_attribute_add, {player_index = player.index, attribute_name = attribute_name, amount = amount })
 end
 
 function Attributes.refresh_ap(player, global_player, ap_left)
@@ -71,15 +75,23 @@ function Attributes.refresh_ap(player, global_player, ap_left)
     end
 end
 
+-- disable_add_when_ap_zero
+-- @param player LuaPlayer
+-- @param[opt=global_player] will be fetched if nil 
+-- @param[opt=ap_left] ap_left will be fetched if nil 
 function Attributes.disable_add_when_ap_zero(player, global_player, ap_left)
-    if(ap_left == nil) then
+    if ap_left == nil then
         ap_left = Attributes.points_left(player);
+    end
+
+    if global_player == nil then
+        global_player = PlayerUtil.get_global_player(player)
     end
 
     for k, _ in pairs(global_player.attributes) do
         if  global_player.elements["pe_attribute_add_" .. k] then
             global_player.elements["pe_attribute_add_" .. k].enabled = true
-            if(ap_left == 0 ) then
+            if ap_left == 0  then
                 global_player.elements["pe_attribute_add_" .. k].enabled = false
             end
         end

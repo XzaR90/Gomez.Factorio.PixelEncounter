@@ -15,7 +15,7 @@ local function bump_level(player)
         end
         
         Print.level(player, global_player.level)
-        script.raise_event(Experience.on_player_level_up, {player_index = player.index, player_level = global_player.level })
+        script.raise_event(Experience.on_player_level_up, {player_index = player.index, level = global_player.level })
         return true
     end
 
@@ -30,9 +30,9 @@ end
 
 
 
-function Experience.add_to_all(xp)
+function Experience.add_to_all(xp, forceIIndex)
     for _, player in pairs(game.players) do
-        if player.connected then
+        if player.connected and (forceIIndex == nil or forceIIndex == player.force.index) then
             Experience.add(player, xp)
         end
     end

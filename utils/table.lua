@@ -26,4 +26,16 @@ function TableUtil.copy(obj, seen)
     return res
   end
 
+  function TableUtil.get_length(tbl)
+    local count = 0
+    for _ in pairs(tbl) do 
+      count = count + 1 
+    end
+    return count
+  end
+
+table.get_length = TableUtil.get_length
+table.copy = TableUtil.copy
+table.merge = TableUtil.merge
+
 return TableUtil

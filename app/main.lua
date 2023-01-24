@@ -1,5 +1,6 @@
 local PlayerUtil = require 'utils.player'
 local Attributes = require 'app.attributes'
+local Modifiers = require 'app.modifiers'
 local TableUtil = require 'utils.table';
 
 local Main = {}
@@ -8,7 +9,9 @@ function Main.createPlayer()
     return {
         xp = 0,
         level = 1,
+        money = 10,
         attributes = Attributes.create(),
+        modifiers = Modifiers.create(),
     }
 end
 
@@ -30,13 +33,16 @@ end
 function Main.on_init()
     global.players = {};
     for _, player in pairs(game.players) do
-        Main.initialize_global(player);
+        Main.initialize_global(player)
+        Modifiers.update(player)
     end
 end
 
 function Main.on_player_created(event)
     local player = PlayerUtil.get_player(event)
     Main.initialize_global(player)
+    Modifiers.update(player)
+    Attributes.disable_add_when_ap_zero(player)
 end
 
 function Main.on_player_removed(event)

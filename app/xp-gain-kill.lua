@@ -105,7 +105,7 @@ function XpGainKill.on_entity_died(event)
         if die_cause_turret[type] then
             if entity_xp[victim.name] then
                 local xp = entity_xp[victim.name] * game.forces["enemy"].evolution_factor
-                Experience.add_to_all(xp)
+                Experience.add_to_all(xp, attacker.force.index)
                 return
             end
         end

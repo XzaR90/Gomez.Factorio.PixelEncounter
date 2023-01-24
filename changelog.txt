@@ -1,5 +1,11 @@
 ---------------------------------------------------------------------------------------------------
+Version: 1.0.2
+Date: 2023.01.24
+  Feature:
+    - Adds character level and attributes which modifies the character
+    - Adds better evoultion 
+---------------------------------------------------------------------------------------------------
 Version: 1.0.1
 Date: 2023.01.20
   Feature:
-    - Initial release
+    - Adds Boilerplate
