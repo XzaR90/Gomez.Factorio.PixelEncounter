@@ -1,22 +1,25 @@
 local PlayerUtil = require 'utils.player'
 local Main = require 'app.main'
 local UI = require 'app.ui'
+local StatsUI = require 'app.stats-ui'
 local Shortcut = require 'app.shortcut'
 local Refresh = require 'app.refresh'
 
-local Experience = require 'app.experience'
-local Attributes = require 'app.attributes'
+local Experience = require 'app.character-base.experience'
+local Attributes = require 'app.character-base.attributes'
 local Modifiers = require 'app.modifiers'
 
-local XpGainSimple = require 'app.xp-gain-simple'
-local XpGainResearch = require 'app.xp-gain-research'
-local XpGainKill = require 'app.xp-gain-kill'
+local XpGainSimple = require 'app.xp-gains.simple'
+local XpGainResearch = require 'app.xp-gains.research'
+local XpGainKill = require 'app.xp-gains.kill'
+
 local EnemyEvolution = require 'app.enemy-evolution'
 
 require 'utils.string'
 
 script.on_nth_tick(EnemyEvolution.config.count_every_n_ticks, EnemyEvolution.on_nth_tick_count_pollution)
 script.on_nth_tick(EnemyEvolution.config.spawner_forget_time, EnemyEvolution.on_nth_tick_forget_spawner_death)
+script.on_nth_tick(60, StatsUI.updateAll)
 
 script.on_init(function()
     Main.on_init()
@@ -41,6 +44,14 @@ end)
 
 script.on_event(defines.events.on_player_joined_game, function(event)
     Modifiers.on_player_joined_game(event)
+end)
+
+script.on_event(defines.events.on_player_display_resolution_changed, function(event)
+    StatsUI.on_player_display_resolution_changed(event);
+end)
+
+script.on_event(defines.events.on_player_display_scale_changed, function(event)
+    StatsUI.on_player_display_scale_changed(event);
 end)
 
 

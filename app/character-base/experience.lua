@@ -1,4 +1,4 @@
-local Print = require 'app.print'
+local Print = require 'app.utils.print'
 local PlayerUtil = require 'utils.player'
 
 local Experience = {}
@@ -10,8 +10,8 @@ local function bump_level(player)
     if(global_player.xp >= Experience.next_level(global_player.level)) then
         global_player.xp = 0
         global_player.level = global_player.level + 1
-        if global_player.elements["controls_textfield_level"] then
-            global_player.elements["controls_textfield_level"].text = tostring(global_player.level)
+        if global_player.elements.main_ui.controls["textfield_level"] then
+            global_player.elements.main_ui.controls["textfield_level"].text = tostring(global_player.level)
         end
         
         Print.level(player, global_player.level)
@@ -45,8 +45,8 @@ function Experience.add(player, xp)
     if not bump_level(player) then
         Print.experience(player, xp)
     end
-    if global_player.elements["controls_textfield_experience"] then
-        global_player.elements["controls_textfield_experience"].text = Experience.xp_label(player)
+    if global_player.elements.main_ui.controls["textfield_experience"] then
+        global_player.elements.main_ui.controls["textfield_experience"].text = Experience.xp_label(player)
     end
 end
 

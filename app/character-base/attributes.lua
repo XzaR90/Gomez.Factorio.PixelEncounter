@@ -56,8 +56,8 @@ function Attributes.add(player, global_player, attribute_name, amount)
 
     global_player.attributes[attribute_name] = global_player.attributes[attribute_name] + amount
     
-    if(global_player.elements["controls_textfield_" .. attribute_name]) then
-        global_player.elements["controls_textfield_" .. attribute_name].text = tostring(global_player.attributes[attribute_name])
+    if(global_player.elements.main_ui.controls["textfield_" .. attribute_name]) then
+        global_player.elements.main_ui.controls["textfield_" .. attribute_name].text = tostring(global_player.attributes[attribute_name])
     end
 
     Attributes.refresh_ap(player, global_player, ap_left)
@@ -70,8 +70,8 @@ function Attributes.refresh_ap(player, global_player, ap_left)
         ap_left = Attributes.points_left(player);
     end
 
-    if(global_player.elements["controls_textfield_attribute_points"]) then
-        global_player.elements["controls_textfield_attribute_points"].text = tostring(ap_left)
+    if(global_player.elements.main_ui.controls["textfield_attribute_points"]) then
+        global_player.elements.main_ui.controls["textfield_attribute_points"].text = tostring(ap_left)
     end
 end
 
@@ -89,10 +89,10 @@ function Attributes.disable_add_when_ap_zero(player, global_player, ap_left)
     end
 
     for k, _ in pairs(global_player.attributes) do
-        if  global_player.elements["pe_attribute_add_" .. k] then
-            global_player.elements["pe_attribute_add_" .. k].enabled = true
+        if  global_player.elements.main_ui.controls["pe_attribute_add_" .. k] then
+            global_player.elements.main_ui.controls["pe_attribute_add_" .. k].enabled = true
             if ap_left == 0  then
-                global_player.elements["pe_attribute_add_" .. k].enabled = false
+                global_player.elements.main_ui.controls["pe_attribute_add_" .. k].enabled = false
             end
         end
     end

@@ -5,10 +5,12 @@ TableUtil.CombineStrategy = {first = 0, second = 1}
 function TableUtil.merge(t1, t2, mergeType)
     for k, v in pairs(t2) do
         if (type(v) == "table") and (type(t1[k] or false) == "table") then
-            TableUtil.merge(t1[k], t2[k])
+            TableUtil.merge(t1[k], t2[k], mergeType)
         else
-            if mergeType == TableUtil.CombineStrategy.second then t1[k] = v
-            elseif mergeType == TableUtil.CombineStrategy.first and not t1[k] then t1[k] = v
+            if mergeType == TableUtil.CombineStrategy.second then 
+              t1[k] = v
+            elseif mergeType == TableUtil.CombineStrategy.first and (not t1[k] or type(t1[k]) ~= type(v)) then 
+              t1[k] = v
             end
         end
     end

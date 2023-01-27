@@ -1,4 +1,4 @@
-local Experience = require 'app.experience'
+local Experience = require 'app.character-base.experience'
 local PlayerUtil = require 'utils.player'
 
 local XpGainResearch = {}

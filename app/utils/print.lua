@@ -8,17 +8,23 @@ local function get_position(player)
     return position
 end
 
+function Print.flying_text(player, label, color)
+    if player and player.valid then
+        player.surface.create_entity{name = "flying-text", position = get_position(player), text = label, color = color}
+    end
+end
+
 function Print.experience(player, xp)
-    if player and player.valid and xp ~= 0 then
+    if xp ~= 0 then
         local label = string.format("+%.2fXP",xp)
-        player.surface.create_entity{name = "flying-text", position = get_position(player), text = label, color = Color.green}
+        Print.flying_text(player,label, Color.green)
     end
 end
 
 function Print.level(player, level)
-    if player and player.valid and level ~= 0 then
+    if level ~= 0 then
         local label = string.format("%.0fLVL",level)
-        player.surface.create_entity{name = "flying-text", position = get_position(player), text = label, color = Color.purple}
+        Print.flying_text(player,label, Color.purple)
     end
 end
 

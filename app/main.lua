@@ -1,7 +1,9 @@
 local PlayerUtil = require 'utils.player'
-local Attributes = require 'app.attributes'
+local Attributes = require 'app.character-base.attributes'
 local Modifiers = require 'app.modifiers'
 local TableUtil = require 'utils.table';
+local UI = require 'app.ui'
+local StatsUI = require 'app.stats-ui'
 
 local Main = {}
 
@@ -18,7 +20,7 @@ end
 function Main.createInterface()
     return {
         controls_active = true,
-        elements = {},
+        elements = TableUtil.merge(UI.createGlobals(), StatsUI.createGlobals(), TableUtil.CombineStrategy.second),
     }
 end
 

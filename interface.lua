@@ -1,6 +1,6 @@
 
-local Experience = require 'app.experience'
-local Attributes = require 'app.attributes'
+local Experience = require 'app.character-base.experience'
+local Attributes = require 'app.character-base.attributes'
 local Interface = {}
 
 function Interface.get_on_player_level_up()

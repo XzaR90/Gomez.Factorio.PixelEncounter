@@ -1,5 +1,5 @@
 local PlayerUtil = require 'utils.player'
-local Experience = require 'app.experience'
+local Experience = require 'app.character-base.experience'
 
 local XpGainSimple = {}
 local function add_xp_from_tree_and_rocks(player, ent)

@@ -7,6 +7,7 @@
         "game",
         "global",
         "player",
-        "remote"
+        "remote",
+        "default_font_color"
     ]
 }

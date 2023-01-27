@@ -1,6 +1,6 @@
 require 'utils.math'
 local PlayerUtil = require 'utils.player'
-local Attributes = require 'app.attributes'
+local Attributes = require 'app.character-base.attributes'
 
 local Modifiers = {}
 
@@ -74,8 +74,8 @@ end
 
 function Modifiers.refresh_ui(global_player)
     for k, v in pairs(global_player.modifiers) do
-        if global_player.elements["controls_textfield_" .. k] then
-            global_player.elements["controls_textfield_" .. k].text = Modifiers.getStringFormat(k,v)
+        if global_player.elements.main_ui.controls["textfield_" .. k] then
+            global_player.elements.main_ui.controls["textfield_" .. k].text = Modifiers.getStringFormat(k,v)
         end
     end
 end
