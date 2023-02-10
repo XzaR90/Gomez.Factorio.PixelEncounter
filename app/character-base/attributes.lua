@@ -55,24 +55,8 @@ function Attributes.add(player, global_player, attribute_name, amount)
     end
 
     global_player.attributes[attribute_name] = global_player.attributes[attribute_name] + amount
-    
-    if(global_player.elements.main_ui.controls["textfield_" .. attribute_name]) then
-        global_player.elements.main_ui.controls["textfield_" .. attribute_name].text = tostring(global_player.attributes[attribute_name])
-    end
-
-    Attributes.refresh_ap(player, global_player, ap_left)
     Attributes.disable_add_when_ap_zero(player, global_player, ap_left)
-    script.raise_event(Attributes.on_player_attribute_add, {player_index = player.index, attribute_name = attribute_name, amount = amount })
-end
-
-function Attributes.refresh_ap(player, global_player, ap_left)
-    if(ap_left == nil) then
-        ap_left = Attributes.points_left(player);
-    end
-
-    if(global_player.elements.main_ui.controls["textfield_attribute_points"]) then
-        global_player.elements.main_ui.controls["textfield_attribute_points"].text = tostring(ap_left)
-    end
+    script.raise_event(Attributes.on_player_attribute_add, {player_index = player.index, attribute_name = attribute_name, amount = amount, ap_left = ap_left })
 end
 
 -- disable_add_when_ap_zero

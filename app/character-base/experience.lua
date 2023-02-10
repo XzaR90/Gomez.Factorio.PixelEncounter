@@ -10,11 +10,8 @@ local function bump_level(player)
     if(global_player.xp >= Experience.next_level(global_player.level)) then
         global_player.xp = 0
         global_player.level = global_player.level + 1
-        if global_player.elements.main_ui.controls["textfield_level"] then
-            global_player.elements.main_ui.controls["textfield_level"].text = tostring(global_player.level)
-        end
-        
         Print.level(player, global_player.level)
+        player.play_sound({path = 'pe_player_level_up', volume_modifier=0.85})
         script.raise_event(Experience.on_player_level_up, {player_index = player.index, level = global_player.level })
         return true
     end
@@ -44,9 +41,6 @@ function Experience.add(player, xp)
 
     if not bump_level(player) then
         Print.experience(player, xp)
-    end
-    if global_player.elements.main_ui.controls["textfield_experience"] then
-        global_player.elements.main_ui.controls["textfield_experience"].text = Experience.xp_label(player)
     end
 end
 

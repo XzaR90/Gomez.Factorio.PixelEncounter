@@ -40,25 +40,25 @@ function Modifiers.update(player)
 
     local global_player = PlayerUtil.get_global_player(player)
     local start_penalty = Attributes.initialPoint - 2;
+    local level_penalty = global_player.level * 0.33;
 
-    local actual_strength = math.max(global_player.attributes.strength - global_player.level, Attributes.initialPoint) - start_penalty
-    local actual_dexterity = math.max(global_player.attributes.dexterity - global_player.level, Attributes.initialPoint) - start_penalty
-    local actual_endruance = math.max(global_player.attributes.endurance - global_player.level, Attributes.initialPoint) - start_penalty
-    local actual_intelligence = math.max(global_player.attributes.intelligence - global_player.level, Attributes.initialPoint) - start_penalty
+    local actual_strength = math.max(global_player.attributes.strength - level_penalty, Attributes.initialPoint) - start_penalty
+    local actual_dexterity = math.max(global_player.attributes.dexterity - level_penalty, Attributes.initialPoint) - start_penalty
+    local actual_endurance = math.max(global_player.attributes.endurance - level_penalty, Attributes.initialPoint) - start_penalty
+    local actual_intelligence = math.max(global_player.attributes.intelligence - level_penalty, Attributes.initialPoint) - start_penalty
 
     global_player.modifiers.character_mining_speed_modifier =  math.min(actual_strength * 0.01, 0.5)
-    global_player.modifiers.character_running_speed_modifier = math.min(actual_endruance * 0.01, 0.5)
+    global_player.modifiers.character_running_speed_modifier = math.min(actual_endurance * 0.01, 0.5)
     global_player.modifiers.character_crafting_speed_modifier = math.min(actual_intelligence * 0.01, 0.5)
 
-    global_player.modifiers.character_build_distance_bonus = math.round(math.min(actual_dexterity * 0.01, 60))
-    global_player.modifiers.character_item_drop_distance_bonus = math.round(math.min(actual_dexterity * 0.01, 60))
-    global_player.modifiers.character_item_pickup_distance_bonus = math.round(math.min(actual_dexterity * 0.01, 60))
+    global_player.modifiers.character_build_distance_bonus = math.round(math.min(actual_dexterity * 0.1, 60))
+    global_player.modifiers.character_item_drop_distance_bonus = math.round(math.min(actual_dexterity * 0.1, 60))
+    global_player.modifiers.character_item_pickup_distance_bonus = math.round(math.min(actual_dexterity * 0.1, 60))
 
-    global_player.modifiers.character_reach_distance_bonus = math.round(math.min(actual_dexterity * 0.01, 20))
-    global_player.modifiers.character_loot_pickup_distance_bonus = math.round(math.min(actual_dexterity * 0.01, 20))
-    global_player.modifiers.character_reach_distance_bonus = math.round(math.min(actual_dexterity * 0.01, 20))
-
-    Modifiers.refresh_ui(global_player)
+    global_player.modifiers.character_reach_distance_bonus = math.round(math.min(actual_dexterity * 0.1, 20))
+    global_player.modifiers.character_loot_pickup_distance_bonus = math.round(math.min(actual_dexterity * 0.1, 20))
+    global_player.modifiers.character_resource_reach_distance_bonus = math.round(math.min(actual_dexterity * 0.1, 20))
+    
     Modifiers.set_to_character(global_player)
 end
 
@@ -69,14 +69,6 @@ function Modifiers.getStringFormat(key,value)
     end
     if(Modifiers.formats[key] == 'i') then
         return string.format("%.0f", value)
-    end
-end
-
-function Modifiers.refresh_ui(global_player)
-    for k, v in pairs(global_player.modifiers) do
-        if global_player.elements.main_ui.controls["textfield_" .. k] then
-            global_player.elements.main_ui.controls["textfield_" .. k].text = Modifiers.getStringFormat(k,v)
-        end
     end
 end
 

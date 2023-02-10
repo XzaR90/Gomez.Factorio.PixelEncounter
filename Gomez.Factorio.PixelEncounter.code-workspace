@@ -4,7 +4,11 @@
 			"path": "."
 		}
 	],
-	"settings": {},
+	"settings": {
+		"cSpell.enableFiletypes": [
+			"lua"
+		]
+	},
 	"extensions": {
 		"recommendations": [
 			"sumneko.lua",

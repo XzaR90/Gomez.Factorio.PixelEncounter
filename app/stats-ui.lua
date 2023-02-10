@@ -35,22 +35,25 @@ local function set_width(player, global_player)
   main_frame.style.width = (player.display_resolution.width / player.display_scale)
 end
 
-local function addOrUpdateRow(global_player, main_frame, caption, name)
-  local label_name = "pe_stats_ui_label_" .. name
+--- @param sensor {name:string,caption:string, color:{r:number,g:number,b:number}}
+local function addOrUpdateRow(global_player, main_frame, sensor)
+  local label_name = "pe_stats_ui_label_" .. sensor.name
   local label = global_player.elements.stats_ui.labels[label_name]
   if not label then
     label = main_frame.add({
       type = "label",
       style = "pe_stats_ui_label",
       name = label_name,
-      caption = caption,
+      caption = sensor.caption,
     })
 
+    label.style.font_color = sensor.color or default_font_color
     global_player.elements.stats_ui.labels[label.name] = label
     return
   end
 
-  label.caption = caption
+  label.caption = sensor.caption
+  label.style.font_color = sensor.color or default_font_color
 end
 
 local function init(global_player)
@@ -107,7 +110,7 @@ function StatsUI.update(player, global_player)
 
   for _, sensor_func in pairs(sensors) do
     local sensor = sensor_func(player, global_player)
-    addOrUpdateRow(global_player,main_frame,sensor.caption,sensor.name)
+    addOrUpdateRow(global_player,main_frame,sensor)
   end
 end
 

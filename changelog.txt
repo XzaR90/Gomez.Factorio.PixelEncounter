@@ -1,4 +1,21 @@
 ---------------------------------------------------------------------------------------------------
+Version: 1.0.6
+Date: 2023.02.10
+  Feature:
+    - Adds level label color on level up
+  Fix:
+    - Evolution desync
+---------------------------------------------------------------------------------------------------
+Version: 1.0.5
+Date: 2023.02.03
+  Feature:
+    - Adds level up sound
+    - Adds player's level to the hud
+    - Adds Evolution tab with statistics/data to the ui interface
+  Fix:
+    - Bonus modifiers
+    - Evolution
+---------------------------------------------------------------------------------------------------
 Version: 1.0.4
 Date: 2023.01.27
   Feature:

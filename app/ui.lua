@@ -1,7 +1,8 @@
 require 'utils.string'
 local PlayerUtil = require 'utils.player'
-local CharacterUI = require 'ui.character'
-local ModifiersUI = require 'ui.modifiers'
+local CharacterUI = require 'app.ui.character'
+local ModifiersUI = require 'app.ui.modifiers'
+local EvolutionUI = require 'app.ui.evolution'
 
 local UI = {}
 
@@ -31,20 +32,24 @@ end
 
 local function build_menu_items(global_player, menu_frame)
     local menu_btn_character = menu_frame.add({type="button", enabled = false,  name="pe_menu_button_character", caption={"ui.menu_item_character"}})
-    local menu_btn_modifiers = menu_frame.add({type="button", name="pe_menu_button_modifiers", caption={"ui.menu_item_modfiers"}})
+    local menu_btn_modifiers = menu_frame.add({type="button", name="pe_menu_button_modifiers", caption={"ui.menu_item_modifiers"}})
+    local menu_btn_evolution = menu_frame.add({type="button", name="pe_menu_button_evolution", caption={"ui.menu_item_evolution"}})
 
     global_player.elements.main_ui.menu_buttons = {};
     global_player.elements.main_ui.menu_buttons["character"] = menu_btn_character
     global_player.elements.main_ui.menu_buttons["modifiers"] = menu_btn_modifiers
+    global_player.elements.main_ui.menu_buttons["evolution"] = menu_btn_evolution
 end
 
 local function build_content_frames(global_player, grid_frame)
     local character_content_frame = grid_frame.add{type="frame", name="pe_character_content_frame", direction="vertical", visible = true}
     local modifiers_content_frame = grid_frame.add{type="frame", name="pe_modifiers_content_frame", direction="vertical", visible = false}
+    local evolution_content_frame = grid_frame.add{type="frame", name="pe_evolution_content_frame", direction="vertical", visible = false}
     
     global_player.elements.main_ui.content_frames = {}
     global_player.elements.main_ui.content_frames["character"] = character_content_frame
     global_player.elements.main_ui.content_frames["modifiers"] = modifiers_content_frame
+    global_player.elements.main_ui.content_frames["evolution"] = evolution_content_frame
 end
 
 local function toggleMenuItem(global_player, menuName)
@@ -73,6 +78,7 @@ function UI.build_interface(player)
 
     CharacterUI.build(player,global_player)
     ModifiersUI.build(global_player)
+    EvolutionUI.build(global_player)
 end
 
 function UI.toggle_interface(player)

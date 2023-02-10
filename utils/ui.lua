@@ -1,8 +1,10 @@
 local UiUtil = {}
 
-function UiUtil.row_simple(global_player, content_frame, text, name)
-    local controls_flow = content_frame.add{type="flow", name="controls_flow_" .. name, direction="horizontal", style="pe_controls_flow"}
-    local controls_label = controls_flow.add({type="label", caption={"app." .. name}, name="controls_label_" .. name, style="pe_controls_label"})
+function UiUtil.row_simple(global_player, content_frame, text, name, prefix)
+    prefix = prefix or "app"
+    local prefixed_name = prefix .. "_" .. name
+    local controls_flow = content_frame.add{type="flow", name="controls_flow_" .. prefixed_name, direction="horizontal", style="pe_controls_flow"}
+    local controls_label = controls_flow.add({type="label", caption={prefix .. "." .. name}, name="controls_label_" .. name, style="pe_controls_label"})
     local controls_textfield = controls_flow.add(
         {
             type="textfield",
@@ -15,9 +17,9 @@ function UiUtil.row_simple(global_player, content_frame, text, name)
             enabled=false
         })
 
-    global_player.elements.main_ui.controls["label_" .. name] = controls_label
-    global_player.elements.main_ui.controls["textfield_" .. name] = controls_textfield
-    global_player.elements.main_ui.controls["flow_" .. name] = controls_flow
+    global_player.elements.main_ui.controls["label_" .. prefixed_name] = controls_label
+    global_player.elements.main_ui.controls["textfield_" .. prefixed_name] = controls_textfield
+    global_player.elements.main_ui.controls["flow_" .. prefixed_name] = controls_flow
     return controls_flow
 end
 

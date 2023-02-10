@@ -2,7 +2,7 @@ local UI = require 'app.ui'
 local PlayerUtil = require 'utils.player'
 local TableUtil = require 'utils.table';
 local Main = require 'app.main';
-local EnemyEvolution = require 'app.enemy-evolution'
+local EnemyEvolution = require 'app.modules.enemy-evolution.main'
 local StatsUI = require 'app.stats-ui'
 
 local Refresh = {}
