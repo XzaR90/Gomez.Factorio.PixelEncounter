@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------------------------------
 Version: 1.0.7
-Date: 2023.02.14
+Date: 2023.02.17
   Feature:
     - Adds neutral pollution to settings
     - Changed time evolution to 24 hour interval
