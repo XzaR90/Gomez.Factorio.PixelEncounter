@@ -35,6 +35,10 @@ script.on_init(function()
     EnemyEvolution.on_init()
 end)
 
+script.on_event(defines.events.on_runtime_mod_setting_changed, function(event)
+    EnemyEvolutionConfig.on_runtime_mod_setting_changed(event)
+end)
+
 script.on_configuration_changed(function(config_changed_data)
     Refresh.on_configuration_changed(config_changed_data)
 end)

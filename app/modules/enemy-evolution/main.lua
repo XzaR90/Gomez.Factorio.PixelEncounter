@@ -12,11 +12,14 @@ local function init_or_reset()
 	global.enhanced_evolution = {}
 	global.enhanced_evolution.spawner_died = 0
 
+	local settings = {}
+	settings.minimum_pollution_neutral = 80000
+
 	local pollution = {}
 	pollution.chunks = nil
 	pollution.amount = 0
 	pollution.count = 0
-	pollution.neutral = Config.minimum_pollution_neutral
+	pollution.neutral = settings.minimum_pollution_neutral
 	pollution.last_tick = game.tick
 	pollution.current_value = 0
 
@@ -26,8 +29,9 @@ local function init_or_reset()
 	factors.spawner = 0
 	factors.pollution = 0
 
-	global.enhanced_evolution.pollution = pollution;
+	global.enhanced_evolution.pollution = pollution
 	global.enhanced_evolution.factors = factors
+	global.enhanced_evolution.settings = settings
 end
 
 local function get_surface()
@@ -60,8 +64,9 @@ end
 
 local function calculate_factor_time()
 	local factor_time = Config.maximum.time
-	if game.tick < Config.ticks_for_max_value then
-		factor_time = (game.tick / Config.ticks_for_max_value) ^ 2 * Config.maximum.time
+	local interval_tick = math.max(game.tick % Config.ticks_for_max_value, 1)
+	if interval_tick < Config.ticks_for_max_value then
+		factor_time = (interval_tick/ Config.ticks_for_max_value) ^ 2 * Config.maximum.time
 	end
 
 	return factor_time
@@ -102,14 +107,7 @@ local function calculate_spawner()
 	return  Config.maximum.spawners
 end
 
-local function calculate_factor (pollution_amount, pollution_count)
-
-	global.enhanced_evolution.factors.time = calculate_factor_time()
-	global.enhanced_evolution.factors.technology = calculate_factor_technology()
-	global.enhanced_evolution.factors.spawner = calculate_spawner()
-
-	-- pollution factor
-
+local function calculate_pollution(pollution_amount, pollution_count)
 	local pollution_value = pollution_amount / math.log(pollution_count)
 
 	local delta_tick = game.tick - global.enhanced_evolution.pollution.last_tick
@@ -119,8 +117,9 @@ local function calculate_factor (pollution_amount, pollution_count)
 
 	global.enhanced_evolution.pollution.neutral = global.enhanced_evolution.pollution.neutral + delta_pollution * Config.adjustment_per_calculation
 
-	if (global.enhanced_evolution.pollution.neutral < Config.minimum_pollution_neutral) then
-		global.enhanced_evolution.pollution.neutral = Config.minimum_pollution_neutral
+	local min_neutral = (1 - (global.enhanced_evolution.factors.time / Config.maximum.time) / 3) * global.enhanced_evolution.settings.minimum_pollution_neutral
+	if (global.enhanced_evolution.pollution.neutral < min_neutral) then
+		global.enhanced_evolution.pollution.neutral = min_neutral
 	end
 
 	global.enhanced_evolution.pollution.current_value = global.enhanced_evolution.pollution.current_value + delta_pollution * Config.pollution_factor_per_tick * delta_tick
@@ -129,10 +128,19 @@ local function calculate_factor (pollution_amount, pollution_count)
 		global.enhanced_evolution.pollution.current_value = 0
 	end
 
-	global.enhanced_evolution.factors.pollution = Config.maximum.pollution
 	if (global.enhanced_evolution.pollution.current_value < Config.maximum.pollution) then
-		global.enhanced_evolution.factors.pollution = global.enhanced_evolution.pollution.current_value
+		return global.enhanced_evolution.pollution.current_value
 	end
+
+	return Config.maximum.pollution
+end
+
+local function calculate_factor (pollution_amount, pollution_count)
+
+	global.enhanced_evolution.factors.time = calculate_factor_time()
+	global.enhanced_evolution.factors.technology = calculate_factor_technology()
+	global.enhanced_evolution.factors.spawner = calculate_spawner()
+	global.enhanced_evolution.factors.pollution = calculate_pollution(pollution_amount, pollution_count)
 
 	-- factor calculation
 	local new_factor = global.enhanced_evolution.factors.time + global.enhanced_evolution.factors.technology +
@@ -140,7 +148,7 @@ local function calculate_factor (pollution_amount, pollution_count)
 	local old_factor = game.forces["enemy"].evolution_factor
 
 	new_factor = old_factor + (new_factor - old_factor) * Config.adjustment_per_calculation
-	new_factor = math.min(new_factor,1.0)
+	new_factor = math.min(new_factor, 1.0)
 
 	game.forces["enemy"].evolution_factor = new_factor
 end
