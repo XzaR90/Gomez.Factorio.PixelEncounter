@@ -1,3 +1,4 @@
+local TimeSpan = require 'utils.timespan'
 local Config = {}
 
 ---@diagnostic disable-next-line: unused-local
@@ -10,9 +11,9 @@ end
 
 Config.count_every_n_ticks = 4
 Config.chunks_per_counting_tick = 100
-Config.ticks_for_max_value = 60 * 60 * 60 * 24 -- = 24 hours
+Config.ticks_for_max_value = TimeSpan.Day
 Config.spawners_for_maximum = 60
-Config.spawner_forget_time = 60 * 60 * 12 -- = 12 minutes
+Config.spawner_forget_time = TimeSpan.Minute * 12
 Config.adjustment_per_calculation = 0.08
 Config.pollution_factor_per_tick = 0.00002
 

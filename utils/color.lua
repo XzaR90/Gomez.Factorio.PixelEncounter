@@ -20,6 +20,7 @@ local Color = {
 	pink = {r = 1, g = 0, b = 1},
 	purple = {r = 0.6, g = 0.1, b = 0.6},
 	brown = {r = 0.6, g = 0.4, b = 0.1},
+	default_font_color = default_font_color,
 }
 
 return Color;

@@ -2,6 +2,7 @@ local UiUtil = require 'utils.ui'
 local PlayerUtil = require 'utils.player'
 local Experience = require 'app.character-base.experience'
 local Attributes = require 'app.character-base.attributes'
+local Color = require 'utils.color'
 
 local CharacterUI = {}
 
@@ -23,10 +24,11 @@ local function attributes_row(global_player, content_frame)
     for k, v in pairs(global_player.attributes) do
         local controls_flow = UiUtil.row_simple(global_player, content_frame, tostring(v), k, "character")
         local controls_button = controls_flow.add({type="button", name="pe_attribute_add_" .. k, caption="+"})
+        --controls_button.style.color = Color.darkred
         global_player.elements.main_ui.controls["pe_attribute_add_" .. k] = controls_button
     end
 end
-
+ 
 function CharacterUI.update_ap(player, global_player, ap_left)
     if(ap_left == nil) then
         ap_left = Attributes.points_left(player);

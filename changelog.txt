@@ -1,4 +1,14 @@
 ---------------------------------------------------------------------------------------------------
+Version: 1.0.8
+Date: 2023.02.21
+  Feature:
+    - Adds Web Statistics in JSON as module 
+    - Adds average level statistics
+    - Refactor some code
+  Fix:
+    - High xp reward for cutting tree and mining rocks (nerfed)
+    - Low xp reward when crafting (buffed)
+---------------------------------------------------------------------------------------------------
 Version: 1.0.7
 Date: 2023.02.17
   Feature:

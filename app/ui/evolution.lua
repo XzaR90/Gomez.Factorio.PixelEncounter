@@ -1,6 +1,6 @@
 local UiUtil = require 'utils.ui'
 local PlayerUtil = require 'utils.player'
-
+local get_evo_globals = require 'app.modules.enemy-evolution.main'.get_globals
 
 local EvolutionUI = {}
 
@@ -14,34 +14,32 @@ local function getStringDecimals(value)
 end
 
 local function factors_row(global_player, content_frame)
-    for k, v in pairs(global.enhanced_evolution.factors) do
+    local evo_global = get_evo_globals()
+    for k, v in pairs(evo_global.factors) do
         _ = UiUtil.row_simple(global_player, content_frame, getStringPercent(v), k, "evo")
     end
 end
 
 local function other_rows(global_player, content_frame)
-    _ = UiUtil.row_simple(global_player, content_frame, getStringDecimals(global.enhanced_evolution.pollution.neutral), "neutral", "evo")
-    _ = UiUtil.row_simple(global_player, content_frame, getStringDecimals(global.enhanced_evolution.pollution.amount), "amount", "evo")
-    _ = UiUtil.row_simple(global_player, content_frame, tostring(global.enhanced_evolution.pollution.count), "count", "evo")
-    _ = UiUtil.row_simple(global_player, content_frame, getStringDecimals(global.enhanced_evolution.pollution.current_value), "current_value", "evo")
+    local evo_global = get_evo_globals()
+
+    _ = UiUtil.row_simple(global_player, content_frame, getStringDecimals(evo_global.pollution.neutral), "neutral", "evo")
+    _ = UiUtil.row_simple(global_player, content_frame, getStringDecimals(evo_global.pollution.amount), "amount", "evo")
+    _ = UiUtil.row_simple(global_player, content_frame, tostring(evo_global.pollution.count), "count", "evo")
+    _ = UiUtil.row_simple(global_player, content_frame, getStringDecimals(evo_global.pollution.current_value), "current_value", "evo")
     
 end
 
-local function update_if_exists(global_player, k, v)
-    if global_player.elements.main_ui.controls["textfield_" .. k] then
-        global_player.elements.main_ui.controls["textfield_" .. k].text = v
-    end
-end
-
 function EvolutionUI.update(global_player)
-    for k, v in pairs(global.enhanced_evolution.factors) do
-        update_if_exists(global_player, "evo_" .. k, getStringPercent(v))
+    local evo_global = get_evo_globals()
+    for k, v in pairs(evo_global.factors) do
+        UiUtil.update_if_exists(global_player, "evo_" .. k, getStringPercent(v))
     end
 
-    update_if_exists(global_player, "evo_neutral", getStringDecimals(global.enhanced_evolution.pollution.neutral))
-    update_if_exists(global_player, "evo_amount", getStringDecimals(global.enhanced_evolution.pollution.amount))
-    update_if_exists(global_player, "evo_count", tostring(global.enhanced_evolution.pollution.count))
-    update_if_exists(global_player, "evo_current_value", getStringDecimals(global.enhanced_evolution.pollution.current_value))
+    UiUtil.update_if_exists(global_player, "evo_neutral", getStringDecimals(evo_global.pollution.neutral))
+    UiUtil.update_if_exists(global_player, "evo_amount", getStringDecimals(evo_global.pollution.amount))
+    UiUtil.update_if_exists(global_player, "evo_count", tostring(evo_global.pollution.count))
+    UiUtil.update_if_exists(global_player, "evo_current_value", getStringDecimals(evo_global.pollution.current_value))
 end
 
 function EvolutionUI.updateAll()

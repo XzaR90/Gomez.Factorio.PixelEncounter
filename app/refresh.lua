@@ -3,6 +3,7 @@ local PlayerUtil = require 'utils.player'
 local TableUtil = require 'utils.table';
 local Main = require 'app.main';
 local EnemyEvolution = require 'app.modules.enemy-evolution.main'
+local Statistics = require 'app.modules.statistics.main'
 local StatsUI = require 'app.stats-ui'
 
 local Refresh = {}
@@ -22,6 +23,7 @@ function Refresh.on_configuration_changed(config_changed_data)
         end
 
         EnemyEvolution.on_configuration_changed()
+        Statistics.on_configuration_changed()
     end
 end
 

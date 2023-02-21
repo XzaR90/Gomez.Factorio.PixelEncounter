@@ -1,4 +1,5 @@
 local PlayerUtil = require 'utils.player'
+local Color = require 'utils.color'
 local sensors = require("stats-ui-sensors.index")
 
 local StatsUI = {}
@@ -35,7 +36,7 @@ local function set_width(player, global_player)
   main_frame.style.width = (player.display_resolution.width / player.display_scale)
 end
 
---- @param sensor {name:string,caption:string, color:{r:number,g:number,b:number}}
+--- @param sensor {name:string,caption:table, color:{r:number,g:number,b:number}}
 local function addOrUpdateRow(global_player, main_frame, sensor)
   local label_name = "pe_stats_ui_label_" .. sensor.name
   local label = global_player.elements.stats_ui.labels[label_name]
@@ -47,13 +48,13 @@ local function addOrUpdateRow(global_player, main_frame, sensor)
       caption = sensor.caption,
     })
 
-    label.style.font_color = sensor.color or default_font_color
+    label.style.font_color = sensor.color or Color.default_font_color
     global_player.elements.stats_ui.labels[label.name] = label
     return
   end
 
   label.caption = sensor.caption
-  label.style.font_color = sensor.color or default_font_color
+  label.style.font_color = sensor.color or Color.default_font_color
 end
 
 local function init(global_player)
@@ -82,7 +83,7 @@ function StatsUI.destroy(global_player)
     main_frame.destroy()
     for _, label in pairs(global_player.elements.stats_ui.labels) do
       if label and label.valid then
-        label.destory()
+        label.destroy()
       end
     end
 
@@ -110,7 +111,7 @@ function StatsUI.update(player, global_player)
 
   for _, sensor_func in pairs(sensors) do
     local sensor = sensor_func(player, global_player)
-    addOrUpdateRow(global_player,main_frame,sensor)
+    addOrUpdateRow(global_player,main_frame, sensor)
   end
 end
 

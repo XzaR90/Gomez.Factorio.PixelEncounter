@@ -1,5 +1,11 @@
 local UiUtil = {}
 
+function UiUtil.update_if_exists(global_player, k, v)
+    if global_player.elements.main_ui.controls["textfield_" .. k] then
+        global_player.elements.main_ui.controls["textfield_" .. k].text = v
+    end
+end
+
 function UiUtil.row_simple(global_player, content_frame, text, name, prefix)
     prefix = prefix or "app"
     local prefixed_name = prefix .. "_" .. name

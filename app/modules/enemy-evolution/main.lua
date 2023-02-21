@@ -45,6 +45,10 @@ local function get_surface()
 	return game.surfaces[surfaceIndex]
 end
 
+function EnemyEvolution.get_globals()
+    return global.enhanced_evolution;
+end
+
 function EnemyEvolution.on_configuration_changed()
 	init_or_reset()
 end

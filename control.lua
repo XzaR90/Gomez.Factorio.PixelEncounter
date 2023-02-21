@@ -3,6 +3,7 @@ local Main = require 'app.main'
 local UI = require 'app.ui'
 local EvolutionUI = require 'app.ui.evolution'
 local StatsUI = require 'app.stats-ui'
+local StatisticsUI = require 'app.ui.statistics'
 local CharacterUI = require 'app.ui.character'
 local ModifiersUI = require 'app.ui.modifiers'
 local Shortcut = require 'app.shortcut'
@@ -16,6 +17,7 @@ local XpGainSimple = require 'app.xp-gains.simple'
 local XpGainResearch = require 'app.xp-gains.research'
 local XpGainKill = require 'app.xp-gains.kill'
 
+local Statistics = require 'app.modules.statistics.main'
 local EnemyEvolution = require 'app.modules.enemy-evolution.main'
 local EnemyEvolutionConfig = require 'app.modules.enemy-evolution.config'
 
@@ -28,11 +30,17 @@ script.on_nth_tick(61, function()
     CharacterUI.updateAll()
     EvolutionUI.updateAll()
     ModifiersUI.updateAll()
+    StatisticsUI.updateAll()
 end)
 
 script.on_init(function()
     Main.on_init()
     EnemyEvolution.on_init()
+    Statistics.on_init()
+end)
+
+script.on_event(defines.events.on_tick, function(event)
+    Statistics.tick(event.tick);
 end)
 
 script.on_event(defines.events.on_runtime_mod_setting_changed, function(event)

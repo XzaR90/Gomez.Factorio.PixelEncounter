@@ -1,5 +1,7 @@
+require 'utils.math'
 local PlayerUtil = require 'utils.player'
 local Experience = require 'app.character-base.experience'
+local get_stats_globals = require 'app.modules.statistics.main'.get_globals
 
 local XpGainSimple = {}
 local function add_xp_from_tree_and_rocks(player, ent)
@@ -8,10 +10,10 @@ local function add_xp_from_tree_and_rocks(player, ent)
         xp=ent.prototype.max_health
         if ent.type=='tree' then xp=xp/100 else xp=xp/400 end
     end
-
-    local global_player = PlayerUtil.get_global_player(player)
+    
     if xp > 0 then
-        xp = math.ceil(xp * (global_player.xp + 1) * 0.3)
+        local stats_global = get_stats_globals()
+        xp = math.ceil(xp * math.random_float(1, math.log(math.max(1,stats_global.global_player.average_level) ,10)))
         Experience.add(player, xp)
     end
 end
