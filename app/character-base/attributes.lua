@@ -18,7 +18,11 @@ end
 
 function Attributes.max_points(player)
     local global_player = PlayerUtil.get_global_player(player)
-    return 5 + 5 + 5 + 5 + ((global_player.level - 1) * 5)
+    return Attributes.max_points_by_level(global_player.level)
+end
+
+function Attributes.max_points_by_level(level)
+    return 5 + 5 + 5 + 5 + ((level - 1) * 5)
 end
 
 function Attributes.points_left(player)

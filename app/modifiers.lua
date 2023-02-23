@@ -16,6 +16,7 @@ function Modifiers.create()
         character_reach_distance_bonus = 0,
         character_loot_pickup_distance_bonus = 0,
         character_resource_reach_distance_bonus = 0,
+        character_health_bonus = 0
     }
 end
 
@@ -31,6 +32,7 @@ Modifiers.formats =
     character_reach_distance_bonus = 'i',
     character_loot_pickup_distance_bonus = 'i',
     character_resource_reach_distance_bonus = 'i',
+    character_health_bonus = 'i',
 }
 
 function Modifiers.update(player)
@@ -50,6 +52,7 @@ function Modifiers.update(player)
     global_player.modifiers.character_mining_speed_modifier =  math.min(actual_strength * 0.01, 0.5)
     global_player.modifiers.character_running_speed_modifier = math.min(actual_endurance * 0.01, 0.5)
     global_player.modifiers.character_crafting_speed_modifier = math.min(actual_intelligence * 0.01, 0.5)
+    global_player.modifiers.character_health_bonus = math.min(actual_endurance, 250)
 
     global_player.modifiers.character_build_distance_bonus = math.round(math.min(actual_dexterity * 0.1, 60))
     global_player.modifiers.character_item_drop_distance_bonus = math.round(math.min(actual_dexterity * 0.1, 60))

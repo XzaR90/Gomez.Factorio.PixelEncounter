@@ -10,4 +10,9 @@ return {
       end
     end
   end,
+  ["1.0.9"] = function()
+    if not global.entity_players then
+      global.entity_players = {}
+    end
+  end,
 }

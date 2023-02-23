@@ -48,13 +48,13 @@ local function addOrUpdateRow(global_player, main_frame, sensor)
       caption = sensor.caption,
     })
 
-    label.style.font_color = sensor.color or Color.default_font_color
+    label.style.font_color = sensor.color or Color.white
     global_player.elements.stats_ui.labels[label.name] = label
     return
   end
 
   label.caption = sensor.caption
-  label.style.font_color = sensor.color or Color.default_font_color
+  label.style.font_color = sensor.color or Color.white
 end
 
 local function init(global_player)

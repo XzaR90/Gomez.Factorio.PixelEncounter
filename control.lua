@@ -8,6 +8,7 @@ local CharacterUI = require 'app.ui.character'
 local ModifiersUI = require 'app.ui.modifiers'
 local Shortcut = require 'app.shortcut'
 local Refresh = require 'app.refresh'
+local EntityPlayer = require 'app.entity-player'
 
 local Experience = require 'app.character-base.experience'
 local Attributes = require 'app.character-base.attributes'
@@ -21,8 +22,11 @@ local Statistics = require 'app.modules.statistics.main'
 local EnemyEvolution = require 'app.modules.enemy-evolution.main'
 local EnemyEvolutionConfig = require 'app.modules.enemy-evolution.config'
 
+local critical_hit = require 'app.skills.critical-hit'
+
 require 'utils.string'
 
+script.on_nth_tick(EntityPlayer.updateInterval, EntityPlayer.on_nth_tick_update_existing_entity_player)
 script.on_nth_tick(EnemyEvolutionConfig.count_every_n_ticks, EnemyEvolution.on_nth_tick_count_pollution)
 script.on_nth_tick(EnemyEvolutionConfig.spawner_forget_time, EnemyEvolution.on_nth_tick_forget_spawner_death)
 script.on_nth_tick(61, function()
@@ -98,6 +102,7 @@ script.on_event(Attributes.on_player_attribute_add, function(event)
     Modifiers.update(player)
     CharacterUI.updateAttribute(player, event.attribute_name)
     CharacterUI.update_ap(player, nil, event.ap_left)
+    Attributes.disable_add_when_ap_zero(player, nil, event.ap_left)
 end)
   
 script.on_event(defines.events.on_lua_shortcut, Shortcut.on_lua_shortcut)
@@ -122,3 +127,13 @@ script.on_event(defines.events.on_player_mined_entity, function(event)
     XpGainSimple.on_player_mined_entity(event)
     end,
     {{filter = "type", type = "tree"}, {filter = "type", type = "simple-entity"}})
+
+script.on_event(defines.events.on_entity_damaged, function(event)
+    critical_hit(event)
+    end,
+    {{filter = "type", type = "unit"}, {filter = "type", type = "unit-spawner"}, 
+    {filter = "type", type = "wall"}, {filter = "type", type = "gate"}, {filter = "type", type = "spider-vehicle"},
+    {filter = "type", type = "car"},{filter = "type", type = "electric-turret"}, 
+    {filter = "type", type = "artillery-turret"}, {filter = "type", type = "ammo-turret"},  
+    {filter = "type", type = "fluid-turret"}, {filter = "type", type = "turret"}, 
+    {filter = "type", type = "character"}}) -- event filters 

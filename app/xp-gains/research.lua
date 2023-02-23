@@ -1,5 +1,6 @@
 local Experience = require 'app.character-base.experience'
 local PlayerUtil = require 'utils.player'
+local xp_bonus = require 'app.xp-gains.utils.xp-bonus'
 require 'utils.table'
 
 local XpGainResearch = {}
@@ -36,6 +37,7 @@ function XpGainResearch.on_player_crafted_item(event)
     end
 
     local xp = (recipe.energy + table.get_length(recipe.products)) * (game.forces["enemy"].evolution_factor + 1)
+    xp = xp * xp_bonus(player)
     Experience.add(player, xp)
 end
 

@@ -5,13 +5,18 @@ local Main = require 'app.main';
 local EnemyEvolution = require 'app.modules.enemy-evolution.main'
 local Statistics = require 'app.modules.statistics.main'
 local StatsUI = require 'app.stats-ui'
+local EntityPlayer = require 'app.entity-player'
 
 local Refresh = {}
 function Refresh.on_configuration_changed(config_changed_data)
     if config_changed_data.mod_changes["pixelencounter-server-mod"] then
         if not global.players then
-            Main.on_init();
+            Main.on_init()
             return
+        end
+
+        if not global.entity_players then
+            EntityPlayer.on_init()
         end
 
         for _, player in pairs(game.players) do

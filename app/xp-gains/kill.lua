@@ -1,5 +1,6 @@
 local Experience = require 'app.character-base.experience'
 local PlayerUtil = require 'utils.player'
+local xp_bonus = require 'app.xp-gains.utils.xp-bonus'
 
 local XpGainKill = {}
 
@@ -104,7 +105,7 @@ function XpGainKill.on_entity_died(event)
     if attacker.force.index == 1 then
         if die_cause_turret[type] then
             if entity_xp[victim.name] then
-                local xp = entity_xp[victim.name] * game.forces["enemy"].evolution_factor
+                local xp = entity_xp[victim.name] * (1 + game.forces["enemy"].evolution_factor)
                 Experience.add_to_all(xp, attacker.force.index)
                 return
             end
@@ -134,9 +135,12 @@ function XpGainKill.on_entity_died(event)
     for _, player in pairs(players) do
         if entity_xp[victim.name] then
             local xp = entity_xp[victim.name]
-            Experience.add(player,xp + game.forces["enemy"].evolution_factor * victim.prototype.max_health)
+            xp = xp + game.forces["enemy"].evolution_factor * victim.prototype.max_health;
+            xp = xp * xp_bonus(player)
+
+            Experience.add(player, xp)
         else
-            Experience.add(player,game.forces["enemy"].evolution_factor * victim.prototype.max_health)
+            Experience.add(player, 1 + game.forces["enemy"].evolution_factor * victim.prototype.max_health)
         end
     end
 end

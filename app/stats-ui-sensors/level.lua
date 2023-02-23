@@ -5,7 +5,7 @@ local Color = require 'utils.color'
 return function (player, global_player)
     local level = global_player.level
     local sensor = create_sensor({ "stats_ui.level", level } , "level");
-    sensor.color = Color.default_font_color
+    sensor.color = Color.white
     if(Attribute.points_left(player) > 0) then
         sensor.caption = { "stats_ui.level_plus", level }
         sensor.color = Color.red

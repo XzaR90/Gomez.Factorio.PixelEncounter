@@ -1,6 +1,7 @@
 local PlayerUtil = require 'utils.player'
 local Attributes = require 'app.character-base.attributes'
 local Modifiers = require 'app.modifiers'
+local Skills = require 'app.skills'
 local TableUtil = require 'utils.table';
 local UI = require 'app.ui'
 local StatsUI = require 'app.stats-ui'
@@ -14,6 +15,7 @@ function Main.createPlayer()
         money = 10,
         attributes = Attributes.create(),
         modifiers = Modifiers.create(),
+        skills = Skills.create()
     }
 end
 
@@ -33,7 +35,9 @@ function Main.initialize_global(player)
 end
 
 function Main.on_init()
-    global.players = {};
+    global.players = {}
+    global.entity_players = {}
+    
     for _, player in pairs(game.players) do
         Main.initialize_global(player)
         Modifiers.update(player)
