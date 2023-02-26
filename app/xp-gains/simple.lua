@@ -54,9 +54,15 @@ function XpGainSimple.on_player_repaired_entity(event)
     local xp = entity.prototype.max_health - entity.health
     xp = xp * xp_bonus(player)
     xp = xp * math.random_float(1, math.log(math.max(1,stats_global.global_player.average_level) ,10))
-    
+    xp = xp / 60
     if xp > 0 then
-        Experience.add(player, xp)
+        local interval = 1.5
+        local global_player = PlayerUtil.get_global_player(player)
+        if global_player.skills.cooldowns.repair + 60 * interval < game.tick then
+            global_player.skills.cooldowns.repair = game.tick
+            Experience.add(player, xp)
+        end
+        
     end
 end
 

@@ -29,7 +29,7 @@ require 'utils.string'
 script.on_nth_tick(EntityPlayer.updateInterval, EntityPlayer.on_nth_tick_update_existing_entity_player)
 script.on_nth_tick(EnemyEvolutionConfig.count_every_n_ticks, EnemyEvolution.on_nth_tick_count_pollution)
 script.on_nth_tick(EnemyEvolutionConfig.spawner_forget_time, EnemyEvolution.on_nth_tick_forget_spawner_death)
-script.on_nth_tick(61, function()
+script.on_nth_tick(31, function()
     StatsUI.updateAll()
     CharacterUI.updateAll()
     EvolutionUI.updateAll()

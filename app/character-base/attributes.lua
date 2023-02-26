@@ -7,6 +7,8 @@ local Attributes = {}
 Attributes.on_player_attribute_add = script.generate_event_name() --uint
 
 Attributes.initialPoint = 5;
+
+--- @return {strength:number, dexterity:number, endurance:number, intelligence:number}
 function Attributes.create()
     return {
         strength = Attributes.initialPoint,

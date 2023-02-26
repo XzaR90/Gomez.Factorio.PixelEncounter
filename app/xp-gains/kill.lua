@@ -11,19 +11,25 @@ local die_cause_turret = {
 }
 
 local entity_xp = {
-    --
+
     ['biter-spawner'] = 64,
+    ['biter-explosive-spawner'] = 256,
+    ['biter-cold-spawner'] = 256,
     
     ['behemoth-biter'] = 16,
     ['big-biter'] = 8,
     ['medium-biter'] = 4,
     ['small-biter'] = 1,
 
+    ['mother-explosive-biter'] = 48,
+    ['leviathan-explosive-biter'] = 32,
     ['behemoth-explosive-biter'] = 24,
     ['big-explosive-biter'] = 16,
     ['medium-explosive-biter'] = 6,
     ['small-explosive-biter'] = 2,
 
+    ['mother-cold-biter'] = 48,
+    ['leviathan-cold-biter'] = 32,
     ['behemoth-cold-biter'] = 24,
     ['big-cold-biter'] = 16,
     ['medium-cold-biter'] = 6,
@@ -31,12 +37,18 @@ local entity_xp = {
     
     --
     ['spitter-spawner'] = 64,
+    ['spitter-explosive-spawner'] = 256,
+    ['spitter-cold-spawner'] = 256,
 
+    ['mother-explosive-spitter'] = 48,
+    ['leviathan-explosive-spitter'] = 32,
     ['behemoth-explosive-spitter'] = 24,
     ['big-explosive-spitter'] = 16,
     ['medium-explosive-spitter'] = 6,
     ['small-explosive-spitter'] = 2,
 
+    ['mother-cold-spitter'] = 48,
+    ['leviathan-cold-spitter'] = 32,
     ['behemoth-cold-spitter'] = 24,
     ['big-cold-spitter'] = 16,
     ['medium-cold-spitter'] = 6,
@@ -47,12 +59,15 @@ local entity_xp = {
     ['medium-spitter'] = 4,
     ['small-spitter'] = 1,
 
-    --
+    ['mother-explosive-worm-turret'] = 148,
+    ['leviathan-explosive-worm-turret'] = 64,
     ['behemoth-explosive-worm-turret'] = 128,
     ['big-explosive-worm-turret'] = 56,
     ['medium-explosive-worm-turret'] = 36,
     ['small-explosive-worm-turret'] = 24,
 
+    ['mother-cold-worm-turret'] = 148,
+    ['leviathan-cold-worm-turret'] = 64,
     ['behemoth-cold-worm-turret'] = 128,
     ['big-cold-worm-turret'] = 56,
     ['medium-cold-worm-turret'] = 36,

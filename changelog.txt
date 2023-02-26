@@ -1,4 +1,19 @@
 ---------------------------------------------------------------------------------------------------
+Version: 1.0.11
+Date: 2023.02.25
+  Fix:
+    - Fix high loot amount (nerfed)
+---------------------------------------------------------------------------------------------------
+Version: 1.0.10
+Date: 2023.02.25
+  Feature:
+    - Adds xp to the hud
+    - Adds loot on monster death 
+  Fix:
+    - Fix depdendency
+    - Fix high xp reward on reparing (nerfed)
+    - Fix minor issue on xp reaward on kill
+---------------------------------------------------------------------------------------------------
 Version: 1.0.9
 Date: 2023.02.23
   Feature:

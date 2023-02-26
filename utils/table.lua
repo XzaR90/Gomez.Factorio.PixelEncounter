@@ -18,6 +18,18 @@ function TableUtil.merge(t1, t2, mergeType)
     return t1
 end
 
+function TableUtil.concat_array(a, b)
+  local result = {}
+  for _, v in ipairs(a) do
+    table.insert(result, v)
+  end
+  for _, v in ipairs(b) do
+    table.insert(result, v)
+  end
+
+  return result
+end
+
 function TableUtil.copy(obj, seen)
     if type(obj) ~= 'table' then return obj end
     if seen and seen[obj] then return seen[obj] end
@@ -39,5 +51,6 @@ function TableUtil.copy(obj, seen)
 table.get_length = TableUtil.get_length
 table.copy = TableUtil.copy
 table.merge = TableUtil.merge
+table.concat_array = TableUtil.concat_array
 
 return TableUtil

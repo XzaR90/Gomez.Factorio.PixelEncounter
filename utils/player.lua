@@ -1,4 +1,3 @@
-
 local PlayerUtil = {}
 
 function PlayerUtil.get_global_player(player)

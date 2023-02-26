@@ -1,3 +1,5 @@
+require 'data.fonts'
+
 local styles = data.raw["gui-style"].default
 
 styles["pe_content_frame"] = {
@@ -24,7 +26,7 @@ styles["pe_controls_label"] = {
 
 styles["pe_stats_ui_label"] = {
   type = "label_style",
-  font = "default-game",
+  font = "pe_font_12",
   font_color = default_font_color,
 }
 
@@ -44,7 +46,7 @@ styles["pe_stats_ui_frame"] = {
     vertical_spacing = 0,
     horizontal_align = "right",
     horizontally_stretchable = "on",
-    top_padding = 38,
+    top_padding = 10,
     right_padding = 287,
   },
 }

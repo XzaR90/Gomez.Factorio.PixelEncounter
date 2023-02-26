@@ -74,14 +74,12 @@ return function(event)
                 improbability_pot = improbability_pot * 60
             end
 
-            local stg_critical_interval = 1.5
             improbability_pot = math.floor(improbability_pot)
-
             if actual_dexterity > math.random(0, improbability_pot) then
-                new_damage = math.min(new_damage * 2,new_damage * math.log(actual_strength, 10))
-
-                if global_player.skills.cooldowns.critical_hit + 60 * stg_critical_interval < game.tick then
+                local interval = 1.5
+                if global_player.skills.cooldowns.critical_hit + 60 * interval < game.tick then
                     global_player.skills.cooldowns.critical_hit = game.tick
+                    new_damage = math.min(new_damage * 2,new_damage * math.log(actual_strength, 10))
                     create_critical_hit_effect(entity, actual_dexterity - global_player.level / 0.5, new_damage)
                 end
             end
